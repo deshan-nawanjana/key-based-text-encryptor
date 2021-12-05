@@ -1,0 +1,100 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>Text Encrypt and Decrypt Tool</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<style>
+body {
+      margin:0px;
+      background:#3f3f3f;
+      font-family:Roboto;
+      overflow:hidden;
+}
+
+textarea {
+      color:#FFF;
+      margin:0px;
+      border:none;
+      outline:none;
+      background:rgba(0,0,0,0.3);
+      padding:0px;
+      line-height:25px;
+      font-family:Roboto;
+      padding:6px 10px;
+      width:100%;
+}
+
+#key {
+      width:100%;
+      color:#FFF;
+      margin:0px;
+      border:none;
+      outline:none;
+      background:rgba(0,0,0,0.3);
+      padding:0px;
+      line-height:25px;
+      font-family:Roboto;
+      padding:6px 10px;
+      border-top:1px solid #111;
+}
+#txt_b {
+      border-top:1px solid #111;
+}
+</style>
+</head>
+<body onresize="rz()" onload="rz()">
+
+<textarea id="txt_a" onkeyup="enc()" placeholder="Decrypted Text Here..."></textarea>
+<input type="text" id="key" onkeyup="ed()" placeholder="Encrypt Key Here...">
+<textarea id="txt_b" onkeyup="dec()" placeholder="Encrypted Text Here..."></textarea>
+
+<script>
+function id(x) {return document.getElementById(x);}
+
+var last = 'e';
+
+function enc() {
+      var x = id('txt_a').value;
+      var k = id('key').value;
+      var g = '';
+
+      var i = 0;
+      var n = 0;
+      for(i=0;i<x.length;i++) {
+            g += (x.charCodeAt(i) - k.charCodeAt(n)) + '_';
+            n++;
+            if(n==k.length) {n = 0;}
+      }
+      id('txt_b').value = g.substr(0,g.length-1);
+      last = 'e';
+}
+
+function dec() {
+      var l = id('txt_b').value.split('_');
+      var k = id('key').value;
+      var g = '';
+      var i = 0;
+      var n = 0;
+      for(i=0;i<l.length;i++) {
+            g += String.fromCharCode(parseInt(l[i]) + parseInt(k.charCodeAt(n)));
+            n++;
+            if(n==k.length) {n = 0;}
+      }
+      id('txt_a').value = g;
+      last = 'd';
+}
+
+function ed() {
+      if(last=='e') {enc();}
+      else {dec();}
+}
+
+function rz() {
+      var h = (window.innerHeight + 40) / 2;
+      id('txt_a').style.height = h + 'px';
+      id('txt_b').style.height = h + 'px';
+}
+</script>
+</body>
+</html>
